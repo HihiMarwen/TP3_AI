@@ -16,10 +16,10 @@ class taquin :
     def trans(matrice,i,j,token): #win bch yemchi
         if token!="none":
             if token=="up":
-                matrice[i+1][j]=matrice[i][j]
+                matrice[i-1][j]=matrice[i][j]
             
             elif token=="down":
-                matrice[i-1][j]=matrice[i][j]
+                matrice[i+1][j]=matrice[i][j]
 
             elif token=="right":
                 matrice[i][j+1]=matrice[i][j]
