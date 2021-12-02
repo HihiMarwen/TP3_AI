@@ -1,4 +1,4 @@
-
+import copy
 import numpy as np
 class taquin :
     def __init__(self,n):
@@ -25,21 +25,24 @@ class taquin :
                
         return(self.matrice)
                             
-    def trans(matrice,i,j,token): #win bch yemchi
+    def trans(self,i,j,token): #win bch yemchi
+        
         if token!="null":
+            fils=copy.deepcopy(self.matrice)
             if token=="up":
-                matrice[i-1][j]=matrice[i][j]
+                fils[i-1][j]=copy.deepcopy(self.matrice[i][j])
             
             elif token=="down":
-                matrice[i+1][j]=matrice[i][j]
+                fils[i+1][j]=copy.deepcopy(self.matrice[i][j])
 
             elif token=="right":
-                matrice[i][j+1]=matrice[i][j]
+                fils[i][j+1]=copy.deepcopy(self.matrice[i][j])
 
             elif token=="left":
-                matrice[i][j-1]=matrice[i][j]
+                fils[i][j-1]=copy.deepcopy(self.matrice[i][j])
             
-            matrice[i][j]=0
+            fils[i][j]=0
+        return fils
 
     def verif_mvt(self,matrice,i,j): #verif anehi l case l fergha
         if i>0 and matrice[i-1][j]==0:
@@ -61,10 +64,13 @@ class taquin :
         
     
     def make_list(self):
-        i=j=0
-        while i in range(0,self.n):
-            while j in range(0,self.n):
+        
+        for i in range(0,self.n):
+            for j in range(0,self.n):
+                print(i,j)
+                token="a"
                 token=self.verif_mvt(self.matrice,i,j)
+                print(token)
                 if token!="null":
                     self.list.append(self.trans(i,j,token))
         
