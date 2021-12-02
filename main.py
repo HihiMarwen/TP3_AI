@@ -1,11 +1,13 @@
+
 class taquin :
     def __init__(self,n):
 
         self.etat_final=[[0,1,2],[3,4,5],[6,7,8]]
-        self=[[0,1,2],[3,4,5],[6,7,8]]
+        self.matrice=[[0,1,2],[3,4,5],[6,7,8]]
         #self=[[]]
         self.n=n
         i=j=x=0
+        self.cout=0
         '''while i<n:
             while j < n:
                 x+=1
@@ -52,5 +54,4 @@ class taquin :
 
 
 mat=taquin(input("saisir la taille : "))
-mat.matrice[2]
-print(mat.matrice[2][1])
+print(mat.matrice)
