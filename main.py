@@ -1,9 +1,10 @@
 class taquin :
-    def __init__(self):
+    def __init__(self,n):
 
-        self.matrice=[[0,1,2],[3,4,5],[6,7,8]]
+        self.etat_final=[[0,1,2],[3,4,5],[6,7,8]]
+        self=[[0,1,2],[3,4,5],[6,7,8]]
         #self=[[]]
-        n=3
+        self.n=n
         i=j=x=0
         '''while i<n:
             while j < n:
@@ -29,19 +30,27 @@ class taquin :
             matrice[i][j]=0
 
 
-    def verif_mvt(matrice,i,j): #verif anehi l case l fergha
-        if matrice[i-1][j]==0 and i>0:
+    def verif_mvt(self,i,j): #verif anehi l case l fergha
+        if self[i-1][j]==0 and i>0:
             return("up")
-        elif matrice[i+1][j]==0 and :
+        elif self[i+1][j]==0 and i+1<self.n:
             return("down")
-        elif matrice[i][j+1]==0:
+        elif self[i][j+1]==0 and j+1<self.n:
             return("right")
-        elif matrice[i][j-1]==0:
+        elif self[i][j-1]==0and j>0:
             return("left")
         else :
             return("none")
+        
+        
+    def verif_final(self):
+        if self==self.etat_final:
+            return True
+        else : return False
+        
+    
 
 
-mat=taquin()
+mat=taquin(input("saisir la taille : "))
 mat.matrice[2]
 print(mat.matrice[2][1])
