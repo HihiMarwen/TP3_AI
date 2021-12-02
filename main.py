@@ -1,20 +1,30 @@
 
+import numpy as np
 class taquin :
     def __init__(self,n):
-
-        self.etat_final=[[0,1,2],[3,4,5],[6,7,8]]
-        self.matrice=[[0,1,2],[3,4,5],[6,7,8]]
-        #self=[[]]
         self.n=n
-        i=j=x=0
-        self.cout=0
-        '''while i<n:
-            while j < n:
-                x+=1
-                self[i][j]=x
-                j+=1
-            i+=1'''
-    
+        self.list=[]
+        self.matrice=[[]]
+        self.matrice_final=[[]]
+        
+    def const_random_mat(self,n):
+        self.matrice = np.random.randint(n*n, size=(n,n))
+
+        #construire une liste contenant des entiers random et unique
+        list_random = []
+        while len(list_random) < n*n:
+        #This checks to see if there are duplicate numbers
+            r = np.random.randint(0,n*n)
+            if r not in list_random :
+                list_random.append(r)
+
+        for i in range(0,n):
+                self.matrice[i]=list_random[-3:]
+                list_random.pop()
+                list_random.pop()
+                list_random.pop()
+        return(self.matrice)
+                            
     def trans(matrice,i,j,token): #win bch yemchi
         if token!="none":
             if token=="up":
@@ -31,27 +41,28 @@ class taquin :
             
             matrice[i][j]=0
 
-
-    def verif_mvt(self,i,j): #verif anehi l case l fergha
-        if self[i-1][j]==0 and i>0:
+    def verif_mvt(self,matrice,i,j): #verif anehi l case l fergha
+        if matrice[i-1][j]==0 and i>0:
             return("up")
-        elif self[i+1][j]==0 and i+1<self.n:
+        elif matrice[i+1][j]==0 and i+1<self.n:
             return("down")
-        elif self[i][j+1]==0 and j+1<self.n:
+        elif matrice[i][j+1]==0 and j+1<self.n:
             return("right")
-        elif self[i][j-1]==0and j>0:
+        elif matrice[i][j-1]==0and j>0:
             return("left")
         else :
             return("none")
-        
-        
+         
     def verif_final(self):
+
         if self==self.etat_final:
             return True
         else : return False
         
     
 
-
-mat=taquin(input("saisir la taille : "))
+size=int(input("saisir la taille : "))
+mat=taquin(size)
+mat.const_random_mat(size)
 print(mat.matrice)
+
