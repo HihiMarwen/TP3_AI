@@ -2,7 +2,15 @@ class taquin :
     def __init__(self):
 
         self.matrice=[[0,1,2],[3,4,5],[6,7,8]]
-
+        #self=[[]]
+        n=3
+        i=j=x=0
+        '''while i<n:
+            while j < n:
+                x+=1
+                self[i][j]=x
+                j+=1
+            i+=1'''
     
     def trans(matrice,i,j,token): #win bch yemchi
         if token!="none":
@@ -21,10 +29,10 @@ class taquin :
             matrice[i][j]=0
 
 
-    def verif(matrice,i,j): #verif anehi l case l fergha
-        if matrice[i+1][j]==0:
+    def verif_mvt(matrice,i,j): #verif anehi l case l fergha
+        if matrice[i-1][j]==0 and i>0:
             return("up")
-        elif matrice[i-1][j]==0:
+        elif matrice[i+1][j]==0 and :
             return("down")
         elif matrice[i][j+1]==0:
             return("right")
@@ -35,5 +43,5 @@ class taquin :
 
 
 mat=taquin()
-mat.matrice[1]=mat.matrice[2]
-print(mat.matrice)
+mat.matrice[2]
+print(mat.matrice[2][1])
