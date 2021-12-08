@@ -1,67 +1,86 @@
 import copy
 import numpy as np
+
 class taquin :
     def __init__(self,n):
         self.n=n
-        self.list=[]
+        self.fils=[]
         self.matrice=[[]]
-        self.matrice_final=[[]]
+        self.matrice_final=self.init_final_state(n)
         self.cout=0
         self.niv=0
+        self.result=True
+        self.empty=(0,0)
 
-    def mat_final(self,n):
-        self.matrice_final=copy.deepcopy(self.matrice)
+    def init_final_state(self,n):
+        self.matrice_final=np.random.randint(n*n, size=(n,n))
 
-        #construire une liste contenant des entiers random et unique
-        list_random = []
-        while len(list_random) < n*n:
+        #initruire une filse contenant des entiers random et unique
+        fils_random = []
+        while len(fils_random) < n*n:
         #This checks to see if there are duplicate numbers
             r = np.random.randint(0,n*n)
-            if r not in list_random :
-                list_random.append(r)
-        list_random.sort()
+            if r not in fils_random :
+                fils_random.append(r)
+        fils_random.sort()
 
         for i in range(0,n):
-            self.matrice_final[n-i-1]=list_random[-n:]
+            self.matrice_final[n-i-1]=fils_random[-n:]
             for j in range(0,n):
-                list_random.pop()
+                fils_random.pop()
         return(self.matrice_final)
         
-    def const_random_mat(self,n):
+    def init_state(self,n):
         self.matrice = np.random.randint(n*n, size=(n,n))
-
-        #construire une liste contenant des entiers random et unique
-        list_random = []
-        while len(list_random) < n*n:
-        #This checks to see if there are duplicate numbers
-            r = np.random.randint(0,n*n)
-            if r not in list_random :
-                list_random.append(r)
+        print("Saisir les chiffres avec l'ordre souhaité : ")
+        str_values = input().split(" ")
+        
+        for i in range(len(str_values)):
+            str_values[i]=int(str_values[i])
 
         for i in range(0,n):
-                self.matrice[n-i-1]=list_random[-n:]
+            self.matrice[n-i-1]=str_values[-n:]
+            
+            for j in range(0,n):
+                str_values.pop()
+        
+        return(self.matrice)
+        
+    def init_random(self,n):
+        self.matrice = np.random.randint(n*n, size=(n,n))
+
+        #initruire une filse contenant des entiers random et unique
+        fils_random = []
+        while len(fils_random) < n*n:
+        #This checks to see if there are duplicate numbers
+            r = np.random.randint(0,n*n)
+            if r not in fils_random :
+                fils_random.append(r)
+
+        for i in range(0,n):
+                self.matrice[n-i-1]=fils_random[-n:]
                 for j in range(0,n):
-                    list_random.pop()
+                    fils_random.pop()
                
         return(self.matrice)
-                            
+                                
     def trans(self,i,j,token): #win bch yemchi
         
         if token!="null":
-            fils=copy.deepcopy(self.matrice)
+            fils=copy.deepcopy(self)
             if token=="up":
-                fils[i-1][j]=copy.deepcopy(self.matrice[i][j])
+                fils.matrice[i-1][j]=copy.deepcopy(self.matrice[i][j])
             
             elif token=="down":
-                fils[i+1][j]=copy.deepcopy(self.matrice[i][j])
+                fils.matrice[i+1][j]=copy.deepcopy(self.matrice[i][j])
 
             elif token=="right":
-                fils[i][j+1]=copy.deepcopy(self.matrice[i][j])
+                fils.matrice[i][j+1]=copy.deepcopy(self.matrice[i][j])
 
             elif token=="left":
-                fils[i][j-1]=copy.deepcopy(self.matrice[i][j])
+                fils.matrice[i][j-1]=copy.deepcopy(self.matrice[i][j])
             
-            fils[i][j]=0
+            fils.matrice[i][j]=0
         return fils
 
     def verif_mvt(self,matrice,i,j): #verif anehi l case l fergha
@@ -76,54 +95,55 @@ class taquin :
         else :
             return("null")
          
-    def verif_final(self,matrice):
+    def make_fils(self):
+        
+        for i in range(self.n):
+            for j in range(self.n):
+                token=self.verif_mvt(self.matrice,i,j)
+                
+                if token!="null":
+                    self.fils.append(self.trans(i,j,token))
+        return(self.fils)
+    
+    def verif_final(self):
+        self.init_final_state(self.n)
         for i in range(0,self.n):
             for j in range(0,self.n):
                 
-                if matrice[i][j]!=self.matrice_final[i][j]:
+                if self.matrice[i][j]!=self.matrice_final[i][j]:
                     return False
         return True
         
-    
-    def make_list(self,matrice):
-        
-        for i in range(0,self.n):
-            for j in range(0,self.n):
-                token=matrice.verif_mvt(self.matrice,i,j)
+    def arbre(self,mat):
+        print("********")
+        print(mat.matrice)
+        print(mat.verif_final())
+        if mat.verif_final()==False and self.niv<100:
+            self.result=False
+            mat.list=mat.make_fils()
+            self.niv+=1
+            for i in range(len(mat.fils)):
+                self.cout+=1 
                 
-                if token!="null":
-                    matrice.list.append(self.trans(i,j,token))
-        return(matrice)
-        
-    def arbre(self,matrice):
-        if self.verif_final(matrice.matrice)==False and self.cout<100:
-            matrice=matrice.make_list(matrice)
-            for i in range(0,len(matrice.list)):
-                self.cout+=1
-                matrice.niv+=1
-                verif=self.arbre(matrice.list[i])
-               
-                return True
-                
-        else : return(True)        
+                mat.fils[i].niv=mat.niv+1
+                self.arbre(mat.fils[i])
+                if self.result:
+                    break
+        else : self.result=True    
+           
                 
 
 size=int(input("saisir la taille : "))
 mat=taquin(size)
-mat.const_random_mat(size)
-print("Taquin Initial: \n ",mat.matrice)
-mat.mat_final(size)
-print("Taquin final: \n ",mat.matrice_final)
+#mat.init_random(size)
+mat.init_state(size)
+print("Taquin Initial:")
+print(mat.matrice)
+print("Taquin final:")
+print(mat.matrice_final)
 
 mat.arbre(mat)
 if mat.cout >= 100:
-    print("solution pas trouvée")
+    print("solution pas trouvée",mat.cout,mat.niv)
 else:
-    print("Solution Trouvée\n Cout = ",mat.cout)
-
-'''mat.make_list()
-print("Les cas possibles")
-for i in range(0,len(mat.list)):
-    print(mat.list[i])
-    print("********")'''
-
+    print("Solution Trouvée\n Cout = ",mat.cout,mat.niv)
