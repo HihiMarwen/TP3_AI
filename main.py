@@ -10,7 +10,7 @@ class taquin :
         self.cout=0
         self.niv=0
         self.result=True
-        self.empty=(0,0)
+        self.empty=(n,n)
 
     def init_final_state(self,n):
         self.matrice_final=np.random.randint(n*n, size=(n,n))
@@ -63,9 +63,20 @@ class taquin :
                     fils_random.pop()
                
         return(self.matrice)
-                                
-    def trans(self,i,j,token): #win bch yemchi
-        
+    
+    def verif_mvt(self,matrice,i,j): #verif anehi l case l fergha
+        if i>0 and matrice[i-1][j]==0:
+            return("up")
+        elif i+1<self.n and matrice[i+1][j]==0 :
+            return("down")
+        elif j+1<self.n and matrice[i][j+1]==0 :
+            return("right")
+        elif j>0 and matrice[i][j-1]==0:
+            return("left")
+        else :
+            return("null")
+                                    
+    def trans(self,i,j,token): #win bch yemchi    
         if token!="null":
             fils=copy.deepcopy(self)
             if token=="up":
@@ -83,26 +94,31 @@ class taquin :
             fils.matrice[i][j]=0
         return fils
 
-    def verif_mvt(self,matrice,i,j): #verif anehi l case l fergha
-        if i>0 and matrice[i-1][j]==0:
-            return("up")
-        elif i+1<self.n and matrice[i+1][j]==0 :
-            return("down")
-        elif j+1<self.n and matrice[i][j+1]==0 :
-            return("right")
-        elif j>0 and matrice[i][j-1]==0:
-            return("left")
-        else :
-            return("null")
-         
+    def fill_empty(self,token,i,j):
+        if token!="null":
+            fils=copy.deepcopy(self)
+            if token=="up":
+                self.empty=(i-1,j)
+                
+            elif token=="down":
+                self.empty=(i+1,j)
+                
+            elif token=="right":
+                self.empty=(i,j+1)
+                
+            elif token=="left":
+                self.empty=(i,j-1)
+                
+    
     def make_fils(self):
         
         for i in range(self.n):
             for j in range(self.n):
                 token=self.verif_mvt(self.matrice,i,j)
                 
-                if token!="null":
+                if token!="null" and (i,j)!=self.empty:
                     self.fils.append(self.trans(i,j,token))
+                    self.fils[-1].fill_empty(token,i,j)
         return(self.fils)
     
     def verif_final(self):
