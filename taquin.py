@@ -9,7 +9,7 @@ class taquin :
         self.matrice_final=self.init_final_state(n)
         self.cout=0
         self.niv=0
-        self.result=True
+        self.result=False
         self.empty=(n,n)
 
     def init_final_state(self,n):

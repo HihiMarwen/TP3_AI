@@ -13,19 +13,26 @@ print(mat.matrice)
 print("Taquin final:")
 print(mat.matrice_final)
 print("Choisir la methode du recherche : ")
-print("1- Largeur d'abord")
-print("2- profendeur d'abord")
-print("3- profendeur itérative")
 
-choix=int(input("choix = "))
+exit="no"
+while exit!="yes":
+    mat.cout=0
+    print("1- Largeur d'abord")
+    print("2- profendeur d'abord")
+    print("3- profendeur itérative")
+    choix=int(input("choix = "))
+    if choix == 1:
+        bfs.largeur(mat)
+    elif choix == 2:
+        x=int(input("choisir une limite de recherche : "))
+        dfs.prof(mat,mat,x-1)
+        if mat.result:
+            print("Solution Trouvée")
+        else:
+            print("La solution est encore loin")
+    elif choix == 3:
+        i_dfs.prof_iter(mat)
+        
+    print("cout = ", mat.cout)
 
-if choix == 1:
-    bfs.largeur(mat)
-elif choix == 2:
-    dfs.prof(mat,mat)
-    if mat.result:
-        print("Solution Trouvée\n Cout = ",mat.cout)
-    else:
-        print("La solution est encore loin",mat.cout)
-elif choix == 3:
-    i_dfs.prof_iter(mat)
+    exit=input("do you want to exit ?(type yes/no): ")
