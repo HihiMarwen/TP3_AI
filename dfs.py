@@ -1,11 +1,11 @@
 from taquin import taquin
-
-def prof(taq,mat):
-    print("********")
+arbre_niv=[]
+def prof(taq,mat,x):
+    print("***********")
     print(mat.matrice)
-    
+    arbre_niv.append(mat)
     if not mat.verif_final():
-        if mat.niv<4:
+        if mat.niv<x:
             print(mat.niv)
             taq.result=False
             mat.fils=mat.make_fils()
@@ -20,3 +20,5 @@ def prof(taq,mat):
                     break
         
     else : taq.result=True
+    
+    

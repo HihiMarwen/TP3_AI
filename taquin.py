@@ -110,7 +110,7 @@ class taquin :
                 self.empty=(i,j-1)
                  
     def make_fils(self):
-        
+        self.fils.clear()
         for i in range(self.n):
             for j in range(self.n):
                 token=self.verif_mvt(self.matrice,i,j)
